@@ -59,9 +59,6 @@ Before installation, ensure you have:
 
    # Arch Linux
    ./install/arch-linux.sh
-
-   # Other Linux distributions
-   ./install/base.sh
    ```
 
 3. **Deploy dotfiles:**
@@ -91,10 +88,9 @@ dotfiles/
 │   ├── .aliases           # Shell aliases and shortcuts
 │   └── .wezterm.lua       # WezTerm terminal config
 ├── install/               # Installation scripts
-│   ├── base.sh           # Cross-platform base tools
 │   ├── ubuntu.sh         # Ubuntu/Debian specific tools
 │   ├── arch-linux.sh     # Arch Linux specific tools
-│   └── brew/             # macOS Homebrew packages
+│   └── macos.sh          # macOS installation script
 └── docs/                 # Documentation
 ```
 
