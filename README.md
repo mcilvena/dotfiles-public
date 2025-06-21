@@ -65,7 +65,7 @@ Before installation, ensure you have:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/mcilvena/dotfiles.git ~/dotfiles
+   git clone https://github.com/mcilvena/dotfiles-public.git ~/dotfiles
    cd ~/dotfiles
    ```
 
