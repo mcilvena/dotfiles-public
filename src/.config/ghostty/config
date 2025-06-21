@@ -1,0 +1,10 @@
+font-family = JetBrainsMono Nerd Font
+font-size = 15
+macos-option-as-alt = true
+quit-after-last-window-closed = true
+shell-integration = zsh
+theme = catppuccin-mocha
+window-height = 500
+window-inherit-working-directory = true
+window-save-state = always
+window-width = 500

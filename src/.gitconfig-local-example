@@ -1,0 +1,81 @@
+# =============================================================================
+# Local Git Configuration Example
+# =============================================================================
+# Copy this file to ~/.gitconfig-local and customize for your machine.
+# This file is not committed to git and allows machine-specific settings.
+
+# -----------------------------------------------------------------------------
+# User Identity & Signing Configuration
+# -----------------------------------------------------------------------------
+[user]
+	# Your full name as it should appear in commits
+	name = Your Full Name
+	
+	# Email address for this device/context
+	# Use different emails for work vs personal repositories as needed
+	email = your.email@example.com
+	
+	# SSH public key for commit signing (get from 1Password)
+	# Format: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA... (your public key)
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
+
+# -----------------------------------------------------------------------------
+# Platform-Specific SSH Configuration
+# -----------------------------------------------------------------------------
+[core]
+	# Uncomment and modify for Windows with WSL/Git Bash
+	# sshCommand = ssh.exe
+	
+	# Uncomment for specific SSH configurations if needed
+	# sshCommand = ssh -i ~/.ssh/specific_key
+
+# -----------------------------------------------------------------------------
+# 1Password SSH Signing Configuration
+# -----------------------------------------------------------------------------
+[gpg "ssh"]
+	# Path to 1Password's SSH signing program
+	# Common paths by platform:
+	# macOS: /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+	# Linux: /opt/1Password/op-ssh-sign
+	# Windows: C:\Users\<username>\AppData\Local\1Password\app\8\op-ssh-sign.exe
+	program = /opt/1Password/op-ssh-sign
+
+# -----------------------------------------------------------------------------
+# Optional: Local Commit Signature Verification
+# -----------------------------------------------------------------------------
+# Uncomment to enable local signature verification
+# [gpg "ssh"]
+# 	allowedSignersFile = ~/.config/git/allowed_signers
+
+# -----------------------------------------------------------------------------
+# Setup Instructions for 1Password SSH Signing
+# -----------------------------------------------------------------------------
+# 1. Create an SSH key in 1Password:
+#    - Open 1Password app → New Item → SSH Key
+#    - Set "Key type" to "Signing key" (allows commit signing)
+#    - Generate a new Ed25519 key (recommended)
+#
+# 2. Configure automatic Git signing (recommended):
+#    - In 1Password app, open your SSH key
+#    - Select "Configure Commit Signing"
+#    - Choose "Edit Automatically" to update your global Git config
+#
+# 3. Manual configuration (alternative to step 2):
+#    - Copy the public key from 1Password to the signingkey field above
+#    - Ensure the gpg.ssh.program path matches your 1Password installation
+#
+# 4. Add your SSH key to Git hosting platforms:
+#    - GitHub: Settings → SSH and GPG keys → New SSH key
+#    - GitLab: Preferences → SSH Keys (set usage to "Authentication & Signing")
+#    - Bitbucket: Personal settings → SSH keys
+#    - Set key type to "Signing Key" or "Authentication & Signing"
+#
+# 5. Verify your setup:
+#    - Make a test commit: git commit -m "test signing"
+#    - Check signature: git log --show-signature -1
+#    - Look for "Good signature" in the output
+#
+# 6. Optional - Enable local signature verification:
+#    - Create ~/.config/git/allowed_signers file
+#    - Add line: your.email@example.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAA...
+#    - Uncomment the allowedSignersFile configuration above

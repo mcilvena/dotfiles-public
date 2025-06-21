@@ -1,0 +1,9 @@
+# This is incase stow is called on the root directory
+
+.ignore
+docs/
+install/
+Makefile
+Session.vim
+src/
+src/*-example

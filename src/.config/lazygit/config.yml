@@ -1,0 +1,10 @@
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+
+customCommands:
+  - key: 'C'
+    command: 'claude "Generate a git commit message on the first line and detailed body based on the staged changes. Describe the changes made in a way that helps someone reviewing change to understand what changed and why. Output only the commit message with no extra text." | git commit -F -'
+    context: 'files'
+    description: 'AI-generated commit with Claude Code'

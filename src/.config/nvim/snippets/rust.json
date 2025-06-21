@@ -1,0 +1,9 @@
+{
+    "debug": {
+        "prefix": "db",
+        "body": [
+            "debug!($0);"
+        ],
+        "description": "Tracing debug macro"
+    }
+}

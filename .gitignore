@@ -1,0 +1,7 @@
+brew-installed*
+src/*-bak
+src/.tmux/plugins/*
+src/.gitconfig-private
+src/.gitconfig-local
+.aider*
+.claude/
