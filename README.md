@@ -1,6 +1,28 @@
 # Personal Dotfiles
 
-A comprehensive, cross-platform dotfiles configuration for macOS, Windows, and Linux environments. This configuration emphasizes modern tooling, consistent theming, and developer productivity.
+A comprehensive, cross-platform dotfiles configuration for macOS, Windows, and Linux environments. This configuration emphasizes modern tooling, consistent theming, and AI-assisted developer productivity.
+
+## 🤖 AI-Powered Development Features
+
+This dotfiles setup includes integrated AI assistance for enhanced development workflows:
+
+- **🧠 Neovim AI Assistant**: Built-in CodeCompanion plugin supporting multiple AI providers:
+  - **Anthropic Claude** (default): Industry-leading code generation and analysis
+  - **Google Gemini**: Alternative AI model with strong reasoning capabilities  
+  - **Ollama**: Local AI models for offline development
+  - Environment variable configuration for easy provider/model switching
+  - Chat interface and inline code generation directly in your editor
+
+- **📝 AI-Generated Git Commits**: LazyGit integration with Claude Code:
+  - Press `C` in LazyGit to auto-generate contextual commit messages
+  - Analyzes staged changes to create meaningful commit descriptions
+  - Generates both summary line and detailed commit body
+  - Streamlines git workflow with intelligent commit message suggestions
+
+- **⚙️ Configurable AI Environment**: 
+  - `CODECOMPANION_ADAPTER`: Choose your preferred AI provider
+  - `CODECOMPANION_*_MODEL`: Specify models for each provider
+  - Easy switching between different AI services based on your needs
 
 ## Features
 
