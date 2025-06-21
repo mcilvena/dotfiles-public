@@ -192,6 +192,30 @@ make test          # Run tests (when implemented)
 - Works via WSL2 with Ubuntu configuration
 - Windows Terminal configuration can be added
 
+#### WezTerm Configuration Sync for WSL
+
+When using WezTerm in Windows with WSL, you can sync your dotfiles WezTerm configuration to the Windows installation:
+
+**Environment Variables (Optional):**
+- `DOTFILES_ROOT`: Path to your dotfiles directory (default: `$HOME/dotfiles`)  
+- `WINDOWS_USER`: Windows username (default: current WSL username)
+
+**Setting Environment Variables:**
+```bash
+# In your ~/.zshrc or ~/.bashrc
+export DOTFILES_ROOT="$HOME/dotfiles"
+export WINDOWS_USER="YourWindowsUsername"
+```
+
+**Manual Sync:**
+```bash
+# Run the sync script manually
+./scripts/sync-wezterm.sh
+```
+
+**Automatic Setup:**
+The sync script automatically detects WSL environment and syncs `src/.wezterm.lua` to `/mnt/c/Users/$WINDOWS_USER/.wezterm.lua`.
+
 ## Customization
 
 ### Adding New Tools
