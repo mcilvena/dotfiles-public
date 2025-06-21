@@ -82,7 +82,7 @@ dotfiles/
 │   ├── .config/           # XDG-compliant application configs
 │   │   ├── alacritty/     # Terminal emulator config
 │   │   ├── ghostty/       # Alternative terminal config
-│   │   ├── nvim.lazy/     # Modern Neovim with Lazy.nvim
+│   │   ├── nvim/          # Modern Neovim with Lazy.nvim
 │   │   ├── nvim.kickstart/# Kickstart-based Neovim setup
 │   │   ├── lazygit/       # Git terminal UI config
 │   │   ├── bat/           # Syntax highlighter config
@@ -135,7 +135,7 @@ All terminals use:
 
 #### Neovim
 Two configurations available:
-1. **Lazy.nvim** (`~/.config/nvim` → `nvim.lazy/`) - Modern plugin management
+1. **Lazy.nvim** (`~/.config/nvim` → `nvim/`) - Modern plugin management
 2. **Kickstart** (`nvim.kickstart/`) - Minimal, educational setup
 
 Features:
