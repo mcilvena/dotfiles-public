@@ -100,18 +100,22 @@ dotfiles/
 │   │   ├── alacritty/     # Terminal emulator config
 │   │   ├── ghostty/       # Alternative terminal config
 │   │   ├── nvim/          # Modern Neovim with Lazy.nvim
+│   │   │   └── README.md  # 📖 Comprehensive Neovim guide
 │   │   ├── lazygit/       # Git terminal UI config
 │   │   ├── bat/           # Syntax highlighter config
 │   │   └── delta/         # Git diff enhancement config
 │   ├── .zshrc             # Zsh shell configuration
 │   ├── .gitconfig         # Git configuration with includes
 │   ├── .aliases           # Shell aliases and shortcuts
+│   ├── .env-example       # Environment variable template
 │   └── .wezterm.lua       # WezTerm terminal config
 ├── install/               # Installation scripts
 │   ├── ubuntu.sh         # Ubuntu/Debian specific tools
 │   ├── arch-linux.sh     # Arch Linux specific tools
 │   └── macos.sh          # macOS installation script
-└── docs/                 # Documentation
+├── docs/                 # Documentation
+├── KEYMAPS.md            # 📖 Complete keybinding reference
+└── README.md             # This file
 ```
 
 ## Key Tools and Replacements
@@ -151,12 +155,15 @@ All terminals use:
 #### Neovim
 Configuration available:
 - **Lazy.nvim** (`~/.config/nvim` → `nvim/`) - Modern plugin management
+- **📖 [Detailed Neovim Documentation](src/.config/nvim/README.md)** - Comprehensive configuration guide
 
 Features:
-- LSP integration for multiple languages
-- Fuzzy finding with telescope
-- Git integration
-- Modern UI with consistent theming
+- **AI-Powered Development**: CodeCompanion integration with multiple AI providers
+- **LSP integration**: Full language server support for multiple languages
+- **Fuzzy finding**: Telescope with extensive search capabilities
+- **Git integration**: Gitsigns, conflict resolution, and Lazygit integration
+- **Modern UI**: Consistent theming with Catppuccin Mocha
+- **Advanced Code Intelligence**: Treesitter, autocompletion, and code folding
 
 ### Git Configuration
 - **Modular Config**: Separate files for personal/work contexts
@@ -191,6 +198,12 @@ make test          # Run tests (when implemented)
 - `ll`, `la` - Enhanced directory listings
 - `bathelp <command>` - Colorized help pages
 - `fzf` integration for command history and file search
+
+### Key Bindings and Shortcuts
+- **📖 [Complete Keybinding Reference](KEYMAPS.md)** - Comprehensive guide to all keybindings
+- **Neovim**: 50+ AI-enhanced keybindings for development workflow
+- **Shell**: Modern CLI shortcuts and productivity commands
+- **Git**: Efficient version control with extensive alias collection
 
 ## Platform-Specific Notes
 
