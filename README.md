@@ -7,7 +7,7 @@ A comprehensive, cross-platform dotfiles configuration for macOS, Windows, and L
 - **Cross-Platform Support**: Works on macOS (work), Windows (personal), and Linux (personal)
 - **Modern CLI Tools**: Replaces traditional tools with faster, feature-rich alternatives
 - **Consistent Theming**: Catppuccin Mocha theme across all applications
-- **Multiple Editors**: Neovim configurations for both Lazy.nvim and Kickstart setups
+- **Modern Editor**: Neovim configuration with Lazy.nvim setup
 - **Git Workflow**: Enhanced git experience with delta diffs and lazygit UI
 - **Shell Enhancement**: Zsh with modern completions and smart directory navigation
 
@@ -83,7 +83,6 @@ dotfiles/
 │   │   ├── alacritty/     # Terminal emulator config
 │   │   ├── ghostty/       # Alternative terminal config
 │   │   ├── nvim/          # Modern Neovim with Lazy.nvim
-│   │   ├── nvim.kickstart/# Kickstart-based Neovim setup
 │   │   ├── lazygit/       # Git terminal UI config
 │   │   ├── bat/           # Syntax highlighter config
 │   │   └── delta/         # Git diff enhancement config
@@ -134,9 +133,8 @@ All terminals use:
 ### Text Editors
 
 #### Neovim
-Two configurations available:
-1. **Lazy.nvim** (`~/.config/nvim` → `nvim/`) - Modern plugin management
-2. **Kickstart** (`nvim.kickstart/`) - Minimal, educational setup
+Configuration available:
+- **Lazy.nvim** (`~/.config/nvim` → `nvim/`) - Modern plugin management
 
 Features:
 - LSP integration for multiple languages
