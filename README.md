@@ -72,9 +72,7 @@ Before installation, ensure you have:
 2. **Install system-specific tools:**
    ```bash
    # macOS
-   ./install/brew/install.sh          # CLI tools
-   ./install/brew/install-fonts.sh    # Fonts
-   ./install/brew/install-casks.sh    # GUI applications
+   ./install/macos.sh
 
    # Ubuntu/Debian Linux
    ./install/ubuntu.sh
