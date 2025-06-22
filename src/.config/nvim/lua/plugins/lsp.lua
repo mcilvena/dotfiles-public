@@ -21,6 +21,7 @@ return {
         capabilities = capabilities,
         settings = {
           yaml = {
+            completion = true,
             schemas = {
               [vim.fn.expand '~/dotfiles/src/.config/nvim/schemas/cloudformation-template-schema.json'] = {
                 '*.cf.yaml',
