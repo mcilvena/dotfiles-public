@@ -446,7 +446,7 @@ install_lua_lsp() {
 
         # Install build dependencies
         if check_sudo_access; then
-            sudo apt install -y lua5.4 liblua5.4-dev
+            sudo apt install -y lua5.4 liblua5.4-dev ninja-build
         fi
 
         # Clone and build lua-language-server
