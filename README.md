@@ -143,7 +143,6 @@ Configurations provided for:
 - **Alacritty**: GPU-accelerated terminal
 - **Ghostty**: Fast, feature-rich terminal
 - **WezTerm**: Terminal with advanced features
-- **iTerm2**: macOS-specific terminal (via preferences)
 
 All terminals use:
 - **Font**: JetBrainsMono Nerd Font (consistent across platforms)
@@ -211,7 +210,6 @@ make test          # Run tests (when implemented)
 ### macOS
 - GUI applications installed to `~/Applications`
 - Homebrew manages all CLI tools and fonts
-- iTerm2 preferences included for import
 
 ### Linux
 - System package managers used for base tools
