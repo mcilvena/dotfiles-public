@@ -23,7 +23,7 @@ return {
           yaml = {
             completion = true,
             schemas = {
-              [vim.fn.expand '~/dotfiles/src/.config/nvim/schemas/cloudformation-template-schema.json'] = {
+              [vim.fn.stdpath('config') .. '/schemas/cloudformation-template-schema.json'] = {
                 '*.cf.yaml',
                 'template.yaml',
               },
@@ -63,7 +63,7 @@ return {
       }
       lsp.rust_analyzer.setup {
         capabilities = capabilities,
-        cmd = { '/home/mcilvena/.cargo/bin/rust-analyzer' }, -- Use system rust-analyzer to prevent duplication
+        cmd = { vim.fn.expand('~/.cargo/bin/rust-analyzer') }, -- Use system rust-analyzer to prevent duplication
         settings = {
           ['rust-analyzer'] = {
             cargo = {
