@@ -23,7 +23,6 @@ end
 config.enable_wayland = false
 config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 400 })
 config.line_height = 1.1
-config.enable_wayland = false
 
 -- Platform-specific DPI and font size configuration for consistent appearance
 if is_darwin then
