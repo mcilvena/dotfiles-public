@@ -96,7 +96,7 @@ update_system() {
 # Install packages from official repositories
 install_official_packages() {
     print_status "Installing packages from official repositories..."
-    
+
     # Core system tools
     local core_packages=(
         "zsh"                # Z shell
@@ -111,7 +111,7 @@ install_official_packages() {
         "gcc"                # C compiler
         "libssl-dev"         # SSL development libraries
     )
-    
+
     # Modern CLI tools (replacements for standard tools)
     local cli_tools=(
         "bat"                # Enhanced cat with syntax highlighting (note: command is batcat)
@@ -122,7 +122,7 @@ install_official_packages() {
         "zoxide"             # Smart cd command
         "eza"                # Modern ls replacement (from newer Ubuntu versions)
     )
-    
+
     # Development tools
     local dev_tools=(
         "neovim"             # Text editor
@@ -132,22 +132,22 @@ install_official_packages() {
         "python3-pip"        # Python package manager
         "luarocks"           # Lua package manager
     )
-    
+
     # Terminal emulators
     local terminals=(
         "alacritty"          # GPU-accelerated terminal
     )
-    
+
     # Fonts
     local fonts=(
         "fonts-jetbrains-mono" # JetBrains Mono font
     )
-    
+
     # Git tools
     local git_tools=(
         "git-delta"          # Better git diffs
     )
-    
+
     # Combine all packages
     local all_packages=(
         "${core_packages[@]}"
@@ -157,7 +157,7 @@ install_official_packages() {
         "${fonts[@]}"
         "${git_tools[@]}"
     )
-    
+
     # Install packages
     if check_sudo_access; then
         for package in "${all_packages[@]}"; do
@@ -179,19 +179,19 @@ install_official_packages() {
             fi
         done
     fi
-    
+
     print_success "Official packages installation completed"
 }
 
 # Install Node.js via NodeSource
 install_nodejs() {
     print_status "Installing Node.js via NodeSource..."
-    
+
     if command -v node >/dev/null 2>&1; then
         print_status "Node.js is already installed ($(node --version))"
         return 0
     fi
-    
+
     if check_sudo_access; then
         # Install Node.js 20.x
         curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
@@ -207,7 +207,7 @@ install_nodejs() {
 # Install additional packages that need special handling
 install_additional_packages() {
     print_status "Installing additional packages..."
-    
+
     # Install eza if not available from apt
     if ! command -v eza >/dev/null 2>&1; then
         print_status "Installing eza from GitHub..."
@@ -225,7 +225,7 @@ install_additional_packages() {
     else
         print_status "eza is already installed"
     fi
-    
+
     # Install dust (better du replacement)
     if ! command -v dust >/dev/null 2>&1; then
         print_status "Installing dust..."
@@ -242,7 +242,7 @@ install_additional_packages() {
     else
         print_status "dust is already installed"
     fi
-    
+
     # Install btop (better top replacement)
     if ! command -v btop >/dev/null 2>&1; then
         print_status "Installing btop..."
@@ -259,7 +259,7 @@ install_additional_packages() {
     else
         print_status "btop is already installed"
     fi
-    
+
     # Install lazygit
     if ! command -v lazygit >/dev/null 2>&1; then
         print_status "Installing lazygit..."
@@ -278,7 +278,7 @@ install_additional_packages() {
     else
         print_status "lazygit is already installed"
     fi
-    
+
     # Install yarn globally
     if ! command -v yarn >/dev/null 2>&1; then
         print_status "Installing yarn..."
@@ -296,7 +296,7 @@ install_additional_packages() {
 # Install additional Node.js tools
 install_node_tools() {
     print_status "Installing Node.js global packages..."
-    
+
     # Check if npm is available
     if command -v npm >/dev/null 2>&1; then
         # Install pnpm globally
@@ -306,32 +306,32 @@ install_node_tools() {
         else
             print_status "pnpm is already installed"
         fi
-        
+
         # Install corepack
         print_status "Installing corepack..."
         npm install -g corepack
     else
         print_warning "npm not available, skipping Node.js tools"
     fi
-    
+
     print_success "Node.js tools processed"
 }
 
 # Install and configure Catppuccin theme for bat
 install_catppuccin_bat() {
     print_status "Installing Catppuccin themes for bat..."
-    
+
     # Check if bat is installed (note: command is batcat on Ubuntu)
     local bat_cmd="bat"
     if command -v batcat >/dev/null 2>&1; then
         bat_cmd="batcat"
     fi
-    
+
     if command -v "$bat_cmd" >/dev/null 2>&1; then
         # Create bat themes directory
         local bat_themes_dir="$($bat_cmd --config-dir)/themes"
         mkdir -p "$bat_themes_dir"
-        
+
         # Define all Catppuccin themes
         local themes=(
             "Catppuccin%20Latte.tmTheme:Catppuccin-Latte.tmTheme"
@@ -339,22 +339,22 @@ install_catppuccin_bat() {
             "Catppuccin%20Macchiato.tmTheme:Catppuccin-Macchiato.tmTheme"
             "Catppuccin%20Mocha.tmTheme:Catppuccin-Mocha.tmTheme"
         )
-        
+
         local themes_installed=false
-        
+
         # Download each theme if not already present
         for theme_info in "${themes[@]}"; do
             local url_name="${theme_info%%:*}"
             local file_name="${theme_info##*:}"
             local theme_file="$bat_themes_dir/$file_name"
-            
+
             if [[ ! -f "$theme_file" ]]; then
                 print_status "Downloading $file_name theme for bat..."
                 curl -L -o "$theme_file" "https://github.com/catppuccin/bat/raw/main/themes/$url_name"
                 themes_installed=true
             fi
         done
-        
+
         # Rebuild bat cache if any themes were installed
         if [[ "$themes_installed" == true ]]; then
             print_status "Rebuilding bat theme cache..."
@@ -371,7 +371,7 @@ install_catppuccin_bat() {
 # Install and configure Rust toolchain
 install_rust() {
     print_status "Installing Rust toolchain..."
-    
+
     if command -v rustup >/dev/null 2>&1; then
         print_status "rustup is already installed"
         # Update existing installation
@@ -383,10 +383,10 @@ install_rust() {
         print_status "Installing Rust using official installer..."
         # Use official Rust installation method
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-        
+
         # Source the cargo env to make rustup available in current shell
         source "$HOME/.cargo/env"
-        
+
         # Configure toolchain
         rustup default stable
         rustup component add clippy rustfmt
@@ -397,9 +397,9 @@ install_rust() {
 # Install Zinit (Zsh plugin manager)
 install_zinit() {
     print_status "Installing Zinit (Zsh plugin manager)..."
-    
+
     local zinit_home="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-    
+
     if [[ ! -d "$zinit_home" ]]; then
         mkdir -p "$(dirname "$zinit_home")"
         git clone https://github.com/zdharma-continuum/zinit.git "$zinit_home"
@@ -412,7 +412,7 @@ install_zinit() {
 # Install FZF from git (for latest version)
 install_fzf() {
     print_status "Installing FZF from git..."
-    
+
     if [[ ! -d "$HOME/.fzf" ]]; then
         git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
         ~/.fzf/install --all
@@ -425,9 +425,9 @@ install_fzf() {
 # Install TPM (Tmux Plugin Manager)
 install_tpm() {
     print_status "Installing TPM (Tmux Plugin Manager)..."
-    
+
     local tpm_dir="$HOME/.tmux/plugins/tpm"
-    
+
     if [[ ! -d "$tpm_dir" ]]; then
         mkdir -p "$HOME/.tmux/plugins"
         git clone https://github.com/tmux-plugins/tpm "$tpm_dir"
@@ -440,16 +440,51 @@ install_tpm() {
 # Install Lua Language Server
 install_lua_lsp() {
     print_status "Installing Lua Language Server..."
-    
+
     if ! command -v lua-language-server >/dev/null 2>&1; then
-        print_status "Installing Lua Language Server via snap..."
+        print_status "Building Lua Language Server from git..."
+
+        # Install build dependencies
         if check_sudo_access; then
-            sudo snap install lua-language-server --classic
+            sudo apt install -y lua5.4 liblua5.4-dev
+        fi
+
+        # Clone and build lua-language-server
+        local temp_dir="/tmp/lua-language-server"
+        if [[ -d "$temp_dir" ]]; then
+            rm -rf "$temp_dir"
+        fi
+
+        git clone --depth=1 --recursive https://github.com/LuaLS/lua-language-server "$temp_dir"
+        cd "$temp_dir"
+
+        # Build the project
+        ./make.sh
+
+        # Install to /usr/local/bin
+        if check_sudo_access; then
+            sudo mkdir -p /usr/local/share/lua-language-server
+            sudo cp -r bin main.lua debugger.lua locale meta script /usr/local/share/lua-language-server/
+
+            # Create wrapper script in /usr/local/bin
+            sudo tee /usr/local/bin/lua-language-server > /dev/null << 'EOF'
+#!/bin/bash
+exec /usr/local/share/lua-language-server/bin/lua-language-server -E /usr/local/share/lua-language-server/main.lua "$@"
+EOF
+            sudo chmod +x /usr/local/bin/lua-language-server
+
             print_success "Lua Language Server installed"
         else
-            print_warning "Cannot install Lua Language Server automatically"
-            print_warning "Please run: sudo snap install lua-language-server --classic"
+            print_warning "Cannot install Lua Language Server automatically - requires sudo"
+            print_warning "Please run the following commands manually:"
+            print_warning "sudo cp bin/lua-language-server /usr/local/bin/"
+            print_warning "sudo mkdir -p /usr/local/share/lua-language-server"
+            print_warning "sudo cp -r main.lua debugger.lua locale meta script /usr/local/share/lua-language-server/"
         fi
+
+        # Clean up
+        cd - > /dev/null
+        rm -rf "$temp_dir"
     else
         print_status "Lua Language Server is already installed"
     fi
@@ -458,7 +493,7 @@ install_lua_lsp() {
 # Install stylua (Lua formatter)
 install_stylua() {
     print_status "Installing stylua (Lua formatter)..."
-    
+
     if ! command -v stylua >/dev/null 2>&1; then
         local stylua_version="0.19.1"
         wget -O /tmp/stylua.zip "https://github.com/JohnnyMorganz/StyLua/releases/download/v${stylua_version}/stylua-linux-x86_64.zip"
@@ -480,10 +515,10 @@ install_stylua() {
 # Install JetBrains Mono Nerd Font
 install_nerd_font() {
     print_status "Installing JetBrains Mono Nerd Font..."
-    
+
     local font_dir="$HOME/.local/share/fonts"
     local font_file="$font_dir/JetBrainsMonoNerdFont-Regular.ttf"
-    
+
     if [[ ! -f "$font_file" ]]; then
         mkdir -p "$font_dir"
         local font_version="3.1.1"
@@ -501,7 +536,7 @@ install_nerd_font() {
 # Post-installation setup
 post_install_setup() {
     print_status "Performing post-installation setup..."
-    
+
     # Change default shell to zsh if not already set
     if [[ "$SHELL" != */zsh ]]; then
         print_status "Changing default shell to zsh..."
@@ -510,23 +545,23 @@ post_install_setup() {
     else
         print_status "Default shell is already zsh"
     fi
-    
+
     # Create necessary directories
     mkdir -p "$HOME/.local/bin"
     mkdir -p "$HOME/.local/share"
     mkdir -p "$HOME/.config"
-    
+
     # Create symlinks for commands that have different names on Ubuntu
     if [[ ! -L "$HOME/.local/bin/fd" ]] && command -v fdfind >/dev/null 2>&1; then
         ln -s "$(which fdfind)" "$HOME/.local/bin/fd"
         print_status "Created symlink: fd -> fdfind"
     fi
-    
+
     if [[ ! -L "$HOME/.local/bin/bat" ]] && command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
         ln -s "$(which batcat)" "$HOME/.local/bin/bat"
         print_status "Created symlink: bat -> batcat"
     fi
-    
+
     # Create global symlinks if we have sudo access and they don't exist
     if check_sudo_access; then
         if [[ ! -L "/usr/bin/bat" ]] && command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1; then
@@ -534,41 +569,41 @@ post_install_setup() {
             print_status "Created global symlink: bat -> batcat"
         fi
     fi
-    
+
     print_success "Post-installation setup completed"
 }
 
 # Main execution
 main() {
     print_status "Starting Ubuntu dotfiles dependencies installation..."
-    
+
     # Check prerequisites
     check_ubuntu
-    
+
     # Update system
     update_system
-    
+
     # Install packages
     install_official_packages
     install_nodejs
     install_additional_packages
-    
+
     # Configure tools
     install_node_tools
     install_catppuccin_bat
     install_rust
     install_lua_lsp
     install_stylua
-    
+
     # Install additional tools
     install_zinit
     install_fzf
     install_tpm
     install_nerd_font
-    
+
     # Post-installation setup
     post_install_setup
-    
+
     print_success "All dependencies installed successfully!"
     print_status "You can now run 'make stow' to set up your dotfiles."
     print_warning "Note: You may need to restart your terminal or log out/in for all changes to take effect."
