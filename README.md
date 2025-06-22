@@ -164,6 +164,7 @@ Features:
 - **Git integration**: Gitsigns, conflict resolution, and Lazygit integration
 - **Modern UI**: Consistent theming with Catppuccin Mocha
 - **Advanced Code Intelligence**: Treesitter, autocompletion, and code folding
+- **Session Management**: Use `:mksession` to create initial session files for mini.sessions
 
 ### Git Configuration
 - **Modular Config**: Separate files for personal/work contexts

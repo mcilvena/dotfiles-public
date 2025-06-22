@@ -273,6 +273,7 @@ Comprehensive Rust-specific keybindings for Cargo.toml management:
 - **Catppuccin**: Primary colorscheme
 - **Which-key**: Keymap discovery
 - **Mini collection**: Statusline, icons, pairs, sessions
+  - **Session Setup**: Use `:mksession` to create initial session files for mini.sessions
 
 #### Terminal
 - **ToggleTerm**: Floating terminal integration
