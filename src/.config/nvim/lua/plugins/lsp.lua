@@ -17,7 +17,39 @@ return {
 
       lsp.bashls.setup { capabilities = capabilities }
       lsp.jsonls.setup { capabilities = capabilities }
-      lsp.yamlls.setup { capabilities = capabilities }
+      lsp.yamlls.setup {
+        capabilities = capabilities,
+        settings = {
+          yaml = {
+            schemas = {
+              [vim.fn.expand '~/dotfiles/src/.config/nvim/schemas/cloudformation-template-schema.json'] = {
+                '*.cf.yaml',
+                'template.yaml',
+              },
+            },
+            customTags = {
+              '!Base64',
+              '!Cidr',
+              '!FindInMap sequence',
+              '!GetAtt',
+              '!GetAZs',
+              '!ImportValue',
+              '!Join sequence',
+              '!Ref',
+              '!Select sequence',
+              '!Split sequence',
+              '!Sub sequence',
+              '!Sub',
+              '!And sequence',
+              '!Condition',
+              '!Equals sequence',
+              '!If sequence',
+              '!Not sequence',
+              '!Or sequence',
+            },
+          },
+        },
+      }
       lsp.ts_ls.setup { capabilities = capabilities }
       lsp.taplo.setup { capabilities = capabilities }
       lsp.lua_ls.setup {

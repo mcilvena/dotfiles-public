@@ -1,0 +1,516 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AWS CloudFormation Template",
+  "description": "JSON schema for AWS CloudFormation templates. CloudFormation templates are JSON or YAML formatted text files that describe AWS infrastructure resources and their dependencies. Templates enable Infrastructure as Code (IaC) by declaratively defining the desired state of your AWS resources.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "AWSTemplateFormatVersion": {
+      "type": "string",
+      "enum": ["2010-09-09"],
+      "description": "(Optional) The CloudFormation template format version that the template conforms to. The template format version is not the same as the API or WSDL version. The template format version can change independently of the API and WSDL versions. Currently, the only valid value is '2010-09-09', and the value must be a literal string. If you don't specify a value, CloudFormation assumes the latest template format version."
+    },
+    "Description": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "(Optional) A text string that describes the template. The description can help you identify templates when you view them in the CloudFormation console. The description must be a literal string that is between 0 and 1024 bytes in length. You cannot perform operations on the description, such as using functions or references."
+    },
+    "Metadata": {
+      "type": "object",
+      "description": "(Optional) Objects that provide additional information about the template. You can use the Metadata section to include arbitrary JSON or YAML objects that provide details about the template. For example, you can include template implementation details about specific resources. During a stack update, you cannot update the Metadata section by itself. You can update it only when you include changes that add, modify, or delete resources."
+    },
+    "Parameters": {
+      "type": "object",
+      "description": "(Optional) Values to pass to your template at runtime when you create or update a stack. You can refer to parameters from the Resources and Outputs sections of the template. Parameters enable you to create templates that are customized each time you create a stack. Each parameter must be assigned a value at runtime; CloudFormation cannot determine a default value. However, you can specify a default value in the parameter definition. Parameters have a maximum limit of 200 parameters in a template.",
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9]*$": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Type": {
+              "type": "string",
+              "enum": [
+                "String",
+                "Number",
+                "List<Number>",
+                "CommaDelimitedList",
+                "AWS::EC2::AvailabilityZone::Name",
+                "AWS::EC2::Image::Id",
+                "AWS::EC2::Instance::Id",
+                "AWS::EC2::KeyPair::KeyName",
+                "AWS::EC2::SecurityGroup::GroupName",
+                "AWS::EC2::SecurityGroup::Id",
+                "AWS::EC2::Subnet::Id",
+                "AWS::EC2::Volume::Id",
+                "AWS::EC2::VPC::Id",
+                "AWS::Route53::HostedZone::Id",
+                "List<AWS::EC2::AvailabilityZone::Name>",
+                "List<AWS::EC2::Image::Id>",
+                "List<AWS::EC2::Instance::Id>",
+                "List<AWS::EC2::SecurityGroup::GroupName>",
+                "List<AWS::EC2::SecurityGroup::Id>",
+                "List<AWS::EC2::Subnet::Id>",
+                "List<AWS::EC2::Volume::Id>",
+                "List<AWS::EC2::VPC::Id>",
+                "List<AWS::Route53::HostedZone::Id>",
+                "AWS::SSM::Parameter::Name",
+                "AWS::SSM::Parameter::Value<String>",
+                "AWS::SSM::Parameter::Value<List<String>>",
+                "AWS::SSM::Parameter::Value<CommaDelimitedList>"
+              ],
+              "description": "(Required) The data type for the parameter. CloudFormation uses the parameter value to determine which data type to use. String types can be literal values or references to resources/parameters. Number types must be integers or floats. List types contain multiple values of the specified type. AWS-specific types validate against existing AWS resources."
+            },
+            "Default": {
+              "description": "(Optional) A value of the appropriate type for the template to use if no value is specified when a stack is created. If you define constraints for the parameter, you must specify a value that adheres to those constraints. The default value can be a literal value, but it cannot be a reference to a resource or another parameter."
+            },
+            "NoEcho": {
+              "type": "boolean",
+              "description": "(Optional) Whether to mask the parameter value to prevent it from being displayed in the CloudFormation console, command line tools, or API. If you set NoEcho to true, CloudFormation returns the parameter value masked as asterisks (*****) for any calls that describe the stack or stack events, except for information stored in the locations specified below. Use this property for sensitive information like passwords. Default is false."
+            },
+            "AllowedValues": {
+              "type": "array",
+              "description": "(Optional) An array containing the list of values allowed for the parameter. CloudFormation will validate that the parameter value is one of the allowed values. If not specified, any value of the correct type is allowed."
+            },
+            "AllowedPattern": {
+              "type": "string",
+              "description": "(Optional) A regular expression that represents the patterns to allow for String types. CloudFormation will test the parameter value against the allowed pattern. If the value doesn't match the pattern, CloudFormation displays the constraint description if it exists, or a default error message. Only applies to String parameter types."
+            },
+            "MaxLength": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "(Optional) An integer value that determines the largest number of characters you want to allow for String types. Only applies to String parameter types. Must be a positive integer."
+            },
+            "MinLength": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "(Optional) An integer value that determines the smallest number of characters you want to allow for String types. Only applies to String parameter types. Must be a positive integer."
+            },
+            "MaxValue": {
+              "type": "number",
+              "description": "(Optional) A numeric value that determines the largest numeric value you want to allow for Number types. Only applies to Number parameter types. The value can be an integer or a float."
+            },
+            "MinValue": {
+              "type": "number",
+              "description": "(Optional) A numeric value that determines the smallest numeric value you want to allow for Number types. Only applies to Number parameter types. The value can be an integer or a float."
+            },
+            "Description": {
+              "type": "string",
+              "maxLength": 4000,
+              "description": "(Optional) A string of up to 4000 characters that describes the parameter. The description appears in the CloudFormation console when users create or update the stack. Use this to provide helpful information about what the parameter is used for and any constraints."
+            },
+            "ConstraintDescription": {
+              "type": "string",
+              "description": "(Optional) A string that explains a constraint when the constraint is violated. For example, if you constrain a parameter to specific values, describe what those values are used for. CloudFormation displays this description when the parameter value violates the constraint."
+            }
+          },
+          "required": ["Type"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Rules": {
+      "type": "object",
+      "description": "(Optional) Validates a parameter or a combination of parameters passed to a template during a stack creation or stack update. Use rules when you want to provide warnings or validate parameter combinations that the standard parameter constraints can't express. For example, if you have two parameters where one parameter's value depends on the other parameter's value.",
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9]*$": {
+          "type": "object",
+          "properties": {
+            "Assertions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "Assert": {
+                    "description": "(Required) Logical condition that evaluates to true or false. You can use any intrinsic function that returns a boolean value."
+                  },
+                  "AssertDescription": {
+                    "type": "string",
+                    "description": "(Optional) Describes the assertion. CloudFormation displays this description when the assertion fails during stack creation or update."
+                  }
+                },
+                "required": ["Assert"],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": ["Assertions"],
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "Mappings": {
+      "type": "object",
+      "description": "(Optional) A mapping of keys and associated values that you can use to specify conditional parameter values, similar to a lookup table. You use the Fn::FindInMap intrinsic function to retrieve values in a map. Mappings are useful when you want to set values based on a region, instance type, or other parameter values.",
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9]*$": {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "object",
+              "patternProperties": {
+                ".*": {}
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "Conditions": {
+      "type": "object",
+      "description": "(Optional) Conditions that control whether certain resources are created or whether certain resource properties are assigned a value during stack creation or update. You can use conditions when you want to reuse a template that can create resources in different contexts, such as a test environment versus a production environment.",
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9]*$": {}
+      },
+      "additionalProperties": false
+    },
+    "Transform": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "(Optional) For serverless applications (AWS SAM) or templates with macros, specifies the version of the AWS Serverless Application Model (SAM) to use or the name of a macro that CloudFormation uses to process your template. The most common value is 'AWS::Serverless-2016-10-31' for SAM templates. You can also use custom macros or other transform types."
+    },
+    "Resources": {
+      "type": "object",
+      "description": "(Required) Specifies the stack resources and their properties, such as an Amazon EC2 instance or an Amazon S3 bucket. You can refer to resources in the Resources and Outputs sections of the template. This is the only required section in a CloudFormation template. Each resource must have a unique logical ID within the template.",
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9]*$": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Type": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9]+::[A-Za-z0-9]+::[A-Za-z0-9]+$",
+              "description": "(Required) The resource type identifier in the format AWS::service-name::data-type-name, such as AWS::EC2::Instance or AWS::S3::Bucket. The resource type determines which resource CloudFormation creates and what properties are available for that resource."
+            },
+            "Properties": {
+              "type": "object",
+              "description": "(Optional) A list of property values for the resource. Property values can be literal strings, lists of strings, Booleans, parameter references, pseudo references, or the value returned by a function. The available properties depend on the resource type you're creating."
+            },
+            "DependsOn": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "(Optional) Resources that must be created before this resource. Use this attribute when you need to specify an explicit dependency that CloudFormation can't automatically infer. For example, if a resource depends on another resource's creation or if timing is important. Value must be the logical ID of another resource in the template."
+            },
+            "DeletionPolicy": {
+              "type": "string",
+              "enum": ["Delete", "Retain", "Snapshot"],
+              "description": "(Optional) Preserve or backup a resource when its stack is deleted. 'Delete' (default) - CloudFormation deletes the resource and all its content. 'Retain' - CloudFormation keeps the resource without deleting it. 'Snapshot' - CloudFormation creates a snapshot of the resource before deleting it (only supported for certain resources like EBS volumes, RDS instances)."
+            },
+            "UpdateReplacePolicy": {
+              "type": "string",
+              "enum": ["Delete", "Retain", "Snapshot"],
+              "description": "(Optional) Preserve or backup a resource when it's replaced during a stack update. Works similarly to DeletionPolicy but applies when a resource is replaced rather than deleted. 'Delete' (default) - CloudFormation deletes the old resource. 'Retain' - CloudFormation keeps the old resource. 'Snapshot' - CloudFormation creates a snapshot before deleting the old resource."
+            },
+            "UpdatePolicy": {
+              "type": "object",
+              "description": "(Optional) How AWS CloudFormation handles updates to certain resources. Used with Auto Scaling groups, Lambda aliases, and Amazon ECS services to control how CloudFormation replaces or updates these resources. This attribute is not supported for all resource types."
+            },
+            "CreationPolicy": {
+              "type": "object",
+              "description": "(Optional) Prevent stack status from reaching create complete until CloudFormation receives a specified number of success signals or a timeout period is exceeded. Used to ensure that resource configuration is complete before CloudFormation proceeds. Most commonly used with EC2 instances and Auto Scaling groups."
+            },
+            "Metadata": {
+              "type": "object",
+              "description": "(Optional) Arbitrary metadata associated with a resource. You can use the resource metadata to provide structured data to AWS CloudFormation helper scripts or custom resource implementations. CloudFormation doesn't validate the content of this section."
+            },
+            "Condition": {
+              "type": "string",
+              "description": "(Optional) Logical ID of the condition that must be satisfied for this resource to be created. If the condition evaluates to false, CloudFormation doesn't create the resource. The condition must be defined in the Conditions section of the template."
+            }
+          },
+          "required": ["Type"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "Outputs": {
+      "type": "object",
+      "description": "(Optional) Describes the values returned whenever you view your stack's properties. You can use outputs to return information about resources in a stack, such as the instance ID of an EC2 instance or the URL of a load balancer. Outputs are commonly used for cross-stack references and for displaying important information to stack users.",
+      "patternProperties": {
+        "^[A-Za-z][A-Za-z0-9]*$": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Description": {
+              "type": "string",
+              "description": "(Optional) A string of up to 1024 bytes that describes the output value. The description helps users understand what the output represents and how to use it."
+            },
+            "Value": {
+              "description": "(Required) The value of the property returned by the aws cloudformation describe-stacks command. The value can be a literal string, a reference to a resource or parameter, or the result of a function. This is what gets returned when you query the stack outputs."
+            },
+            "Export": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "description": "(Required) The name of the resource output to be exported for a cross-stack reference. The export name must be unique within the AWS region and account. Other stacks can import this value using the Fn::ImportValue function."
+                }
+              },
+              "required": ["Name"],
+              "additionalProperties": false,
+              "description": "(Optional) The name of the resource output to be exported for cross-stack references. Use this when you want to share outputs with other stacks in the same region."
+            },
+            "Condition": {
+              "type": "string",
+              "description": "(Optional) Logical ID of the condition that must be satisfied for this output to be created. If the condition evaluates to false, CloudFormation doesn't create the output. The condition must be defined in the Conditions section of the template."
+            }
+          },
+          "required": ["Value"]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["Resources"],
+  "definitions": {
+    "IntrinsicFunction": {
+      "description": "CloudFormation intrinsic functions help you manage your stacks and assign values to properties that are not available until runtime. You can use intrinsic functions in resource properties, outputs, metadata attributes, and update policy attributes.",
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "Ref": {
+              "type": "string",
+              "description": "Returns the value of the specified parameter or resource. When you specify a parameter's logical name, it returns the value of the parameter. When you specify a resource's logical name, it returns a value that you can typically use to refer to that resource, such as a physical ID."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Base64": {
+              "description": "Returns the Base64 representation of the input string. This function is typically used to pass encoded data to Amazon EC2 instances by way of the UserData property."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Cidr": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "Returns an array of CIDR address blocks. The number of CIDR blocks returned is dependent on the count parameter. Takes exactly 3 parameters: [ipBlock, count, cidrBits]. Useful for creating subnets within a VPC."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::FindInMap": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "Returns the value corresponding to keys in a two-level map that is declared in the Mappings section. Takes exactly 3 parameters: [MapName, TopLevelKey, SecondLevelKey]. Commonly used for region-specific or environment-specific configurations."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::GetAtt": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2
+                },
+                {
+                  "type": "string"
+                }
+              ],
+              "description": "Returns the value of an attribute from a resource in the template. Takes 2 parameters: [logicalNameOfResource, attributeName] or a dot-delimited string 'logicalNameOfResource.attributeName'. Attributes vary by resource type."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::GetAZs": {
+              "description": "Returns an array that lists Availability Zones for a specified region in alphabetical order. You can specify a region or use an empty string to specify the region in which the stack is created."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::ImportValue": {
+              "description": "Returns the value of an output exported by another stack. You can use this function only with the Fn:: form of the function name and can't use it with Ref or GetAtt."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Join": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Appends a set of values into a single value, separated by the specified delimiter. Takes exactly 2 parameters: [delimiter, listOfValues]. For example, Fn::Join: [ ':', [ 'a', 'b', 'c' ] ] returns 'a:b:c'."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Length": {
+              "description": "Returns the number of elements within an array or an object. Useful for determining the size of lists or maps in your template."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Select": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Returns a single object from a list of objects by index. Takes exactly 2 parameters: [index, listOfObjects]. Index is zero-based. For example, Fn::Select: [ '1', [ 'apples', 'grapes', 'oranges' ] ] returns 'grapes'."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Split": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Splits a string into a list of string values so that you can select an element from the resulting string list. Takes exactly 2 parameters: [delimiter, sourceString]. Opposite of Fn::Join."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Sub": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              ],
+              "description": "Substitutes variables in an input string with values that you specify. Variables are written as ${MyVarName}. You can use template parameter names, resource logical IDs, resource attributes, or a variable map."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Transform": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string",
+                  "description": "The name of the macro you want to perform the processing."
+                },
+                "Parameters": {
+                  "type": "object",
+                  "description": "The list parameters, specified as key-value pairs, to pass to the macro."
+                }
+              },
+              "required": ["Name"],
+              "additionalProperties": false,
+              "description": "Specifies a macro to perform custom processing on templates. CloudFormation passes the specified parameters to the macro, processes the template, and returns the processed template."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::And": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 10,
+              "description": "Returns true if all the specified conditions evaluate to true, or returns false if any one of the conditions evaluates to false. Takes 2-10 conditions as parameters. Used in the Conditions section."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Equals": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "Compares if two values are equal. Returns true if the two values are equal or false if they aren't. Takes exactly 2 parameters: [value_1, value_2]. Used in the Conditions section."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::If": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 3,
+              "description": "Returns one value if the specified condition evaluates to true and another value if the specified condition evaluates to false. Takes exactly 3 parameters: [condition_name, value_if_true, value_if_false]."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Not": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "description": "Returns the opposite of the specified condition. If a condition is true, Fn::Not returns false. If a condition is false, Fn::Not returns true. Takes exactly 1 parameter: [condition]. Used in the Conditions section."
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "Fn::Or": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 10,
+              "description": "Returns true if any one of the specified conditions evaluate to true, or returns false if all of the conditions evaluates to false. Takes 2-10 conditions as parameters. Used in the Conditions section."
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}
