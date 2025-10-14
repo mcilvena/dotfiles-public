@@ -1,7 +1,11 @@
 # Hyprland Configuration - Enhanced 2025 Edition
 
+![Hyprland Screenshot](https://raw.githubusercontent.com/mcilvena/dotfiles-public/main/assets/hypr-screenshot.png)
+
 ## Overview
+
 This is a modular, performance-optimized Hyprland configuration featuring:
+
 - **Catppuccin Mocha theme** with enhanced visual effects
 - **2025 performance optimizations** for modern hardware
 - **Modular configuration structure** for easy maintenance
@@ -31,12 +35,14 @@ This is a modular, performance-optimized Hyprland configuration featuring:
 ## Key Features
 
 ### Performance Optimizations
+
 - **Explicit Sync**: Hardware-accelerated rendering with NVIDIA optimizations
 - **VRR/FreeSync**: Variable refresh rate support
 - **Smart Blur**: Optimized blur effects with minimal performance impact
 - **Direct Scanout**: Reduced latency for fullscreen applications
 
 ### Quality of Life Improvements
+
 - **Resize Mode**: Precision window resizing with `SUPER + R`
 - **Power Menu**: Quick system controls with `SUPER + SHIFT + Escape`
 - **Window Grouping**: Tab-like window management
@@ -45,6 +51,7 @@ This is a modular, performance-optimized Hyprland configuration featuring:
 - **Scratchpad**: Quick access terminal overlay
 
 ### Visual Enhancements
+
 - **Enhanced Animations**: Smooth bezier curves for natural motion
 - **Dynamic Opacity**: Context-aware window transparency
 - **Smart Shadows**: Proper depth perception with optimized rendering
@@ -53,11 +60,13 @@ This is a modular, performance-optimized Hyprland configuration featuring:
 ## Hardware Support
 
 ### Monitor Setup
+
 - **Dual 4K monitors** at 60Hz with 1.5x scaling
 - **Portrait mode support** for secondary monitor
 - **Workspace distribution** across monitors (1-5 on primary, 6-10 on secondary)
 
 ### NVIDIA Optimizations
+
 - Proper environment variables for Wayland compatibility
 - Hardware cursor workarounds
 - VRR and G-Sync support
@@ -66,6 +75,7 @@ This is a modular, performance-optimized Hyprland configuration featuring:
 ## Quick Start
 
 1. **Backup your existing configuration** (if any):
+
    ```bash
    mv ~/.config/hypr ~/.config/hypr.backup
    ```
@@ -73,6 +83,7 @@ This is a modular, performance-optimized Hyprland configuration featuring:
 2. **This configuration is already active** - your backup is in `~/.config/hypr/backup/`
 
 3. **Test the new features**:
+
    - Try `SUPER + R` for resize mode
    - Use `SUPER + V` for clipboard history
    - Test `SUPER + SHIFT + Escape` for power menu
@@ -85,6 +96,7 @@ This is a modular, performance-optimized Hyprland configuration featuring:
 ## Essential Applications
 
 This configuration works best with these applications:
+
 - **Terminal**: alacritty (default)
 - **Launcher**: rofi
 - **File Manager**: thunar
@@ -95,7 +107,9 @@ This configuration works best with these applications:
 - **Clipboard**: cliphist + wl-clipboard
 
 ### HyprPanel Setup
+
 HyprPanel replaces both waybar and dunst with a modern, integrated solution:
+
 - **Installation**: `yay -S ags-hyprpanel-git` + dependencies
 - **Configuration**: `~/.config/ags/config.js`
 - **Features**: Workspaces, system tray, volume, battery, network, clock
@@ -104,26 +118,33 @@ HyprPanel replaces both waybar and dunst with a modern, integrated solution:
 ## Customization
 
 ### Changing Colors
+
 Edit `conf/environment.conf` to modify the Catppuccin color palette.
 
 ### Adding Keybindings
+
 Add new bindings to `conf/keybinds.conf` following the existing patterns.
 
 ### Window Rules
+
 Modify `conf/windowrules.conf` for application-specific behavior.
 
 ### Monitor Configuration
+
 Update `conf/monitors.conf` for different monitor setups.
 
 ## Troubleshooting
 
 ### Configuration Issues
+
 If you encounter problems:
+
 1. Check the backup: `ls ~/.config/hypr/backup/`
 2. Restore if needed: `cp -r ~/.config/hypr/backup/* ~/.config/hypr/`
 3. Test individual config files with `hyprctl reload`
 
 ### Performance Issues
+
 - Disable blur in `conf/appearance.conf` if needed
 - Reduce animation complexity in `conf/animations.conf`
 - Check NVIDIA driver compatibility
@@ -131,6 +152,7 @@ If you encounter problems:
 ## Re-enabling Auto-reload
 
 To re-enable automatic configuration reloading:
+
 ```bash
 hyprctl keyword misc:disable_autoreload false
 ```
@@ -140,6 +162,7 @@ hyprctl keyword misc:disable_autoreload false
 This configuration is optimized for Hyprland 0.50+ with modern features. Regular updates may be needed as Hyprland evolves.
 
 For the latest features and improvements, refer to:
+
 - [Hyprland Wiki](https://wiki.hyprland.org/)
 - [Catppuccin Theme](https://github.com/catppuccin/catppuccin)
 
@@ -149,3 +172,4 @@ For the latest features and improvements, refer to:
 **Version**: Enhanced 2025 Edition  
 **Theme**: Catppuccin Mocha  
 **Hyprland Version**: 0.50+
+
