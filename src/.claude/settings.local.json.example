@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./install/arch-linux.sh:*)",
+      "Bash(bash:*)",
+      "Bash(yay:*)",
+      "Bash(/dev/null)",
+      "WebFetch(domain:www.rust-lang.org)",
+      "Bash(find:*)",
+      "Bash(ls:*)",
+      "Bash(rg:*)",
+      "Bash(grep:*)",
+      "Bash(fd:*)",
+      "Bash(/usr/bin/find /home/mcilvena/dotfiles/src -name \".*\" -type f)",
+      "Bash(/usr/bin/find /home/mcilvena/dotfiles/src -type d)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:docs.aws.amazon.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:42willow.github.io)",
+      "Bash(rm:*)",
+      "Bash(cp:*)",
+      "Bash(ln:*)",
+      "Bash(mv:*)",
+      "Read(//home/mcilvena/.ssh/**)",
+      "Bash(env)",
+      "Bash(systemctl:*)",
+      "Bash(test:*)",
+      "Bash(ssh-add:*)",
+      "Read(//home/mcilvena/.claude/local/**)",
+      "Bash(readlink:*)",
+      "Read(//home/mcilvena/.claude/plugins/**)"
+    ],
+    "deny": []
+  },
+  "plugins": {
+    "marketplaces": [
+      "anthropics/claude-code"
+    ],
+    "installed": [
+      "feature-dev@claude-code"
+    ]
+  }
+}

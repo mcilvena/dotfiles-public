@@ -1,0 +1,14 @@
+# Enable USB wake-up for keyboard and mouse devices
+# This allows the system to wake from suspend when keyboard or mouse input is detected
+
+# Enable wakeup for USB receiver devices (likely wireless keyboard/mouse)
+SUBSYSTEM=="usb", ATTR{product}=="USB Receiver", ATTR{power/wakeup}="enabled"
+
+# Enable wakeup for ITE devices (likely keyboard)
+SUBSYSTEM=="usb", ATTR{product}=="ITE Device(8297)", ATTR{power/wakeup}="enabled"
+
+# Generic fallback: enable wakeup for HID devices (keyboards, mice, etc.)
+SUBSYSTEM=="usb", ATTR{bInterfaceClass}=="03", ATTR{power/wakeup}="enabled"
+
+# Enable wakeup for USB hubs to ensure signal propagation
+SUBSYSTEM=="usb", ATTR{bDeviceClass}=="09", ATTR{power/wakeup}="enabled"

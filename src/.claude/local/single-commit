@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# Single commit script - generates and creates one commit from staged changes
+# Used by both lazygit single-commit (C) and batch-commit (B) workflows
+
+set -e
+
+# Claude CLI path
+CLAUDE="${HOME}/.claude/local/claude"
+
+# Check if git repo
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "ERROR: Not a git repository" >&2
+    exit 1
+fi
+
+# Check if there are staged changes
+if git diff --cached --quiet; then
+    echo "ERROR: No staged changes to commit" >&2
+    exit 1
+fi
+
+# Get the staged diff
+STAGED_DIFF=$(git diff --cached)
+
+# Generate commit message with Claude
+# Use grep to extract just the first line starting with a lowercase letter (the commit type)
+COMMIT_MSG=$($CLAUDE "Generate a git commit message for these staged changes. Use conventional commit format (type: description) where type is one of: feat, fix, refactor, test, docs, chore.
+
+Describe the changes made in a way that helps someone reviewing the change understand what changed and why. You may include a detailed body after a blank line if needed.
+
+Output ONLY the commit message. Do not include any preamble, thinking, explanation, or additional text. The very first character of your output must be the first letter of the commit type.
+
+Do not include any credits or attribution in the output.
+
+Staged changes:
+$STAGED_DIFF" | grep -m 1 -E '^[a-z]+:' || echo "")
+
+# Verify we got a commit message
+if [ -z "$COMMIT_MSG" ]; then
+    echo "ERROR: Failed to generate commit message" >&2
+    exit 1
+fi
+
+# Create the commit
+echo "$COMMIT_MSG" | git commit -F -

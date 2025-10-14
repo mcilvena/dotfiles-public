@@ -292,7 +292,7 @@ This document provides comprehensive information about all plugins used in this 
 
 ### Adding New Plugins
 
-1. **Neovim**: Add to `src/.config/nvim/lua/plugins/`
+1. **Neovim**: Add to `src/.config/nvim.lazy/lua/plugins/`
 2. **Zsh**: Add to `src/.zshrc` in zinit section
 3. **Tmux**: Add to `src/.tmux.conf` with TPM
 
@@ -304,7 +304,7 @@ This document provides comprehensive information about all plugins used in this 
 
 ### Custom Keymaps
 
-- **Neovim**: Edit `src/.config/nvim/lua/keymaps.lua`
+- **Neovim**: Edit `src/.config/nvim.lazy/lua/keymaps.lua`
 - **Tmux**: Edit `src/.tmux.conf`
 - **Zsh**: Add to `src/.zshrc` or `src/.aliases`
 

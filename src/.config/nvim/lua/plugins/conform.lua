@@ -2,7 +2,7 @@
 -- Automatically formats code on save and provides manual formatting commands
 return {
   'stevearc/conform.nvim',
-  event = { 'BufWritePre' },
+  lazy = false,
   cmd = { 'ConformInfo' },
   keys = {
     {
@@ -23,15 +23,19 @@ return {
     formatters_by_ft = {
       lua = { 'stylua' },
       rust = { 'rustfmt' },
-      javascript = { 'prettierd', 'prettier' },
-      typescript = { 'prettierd', 'prettier' },
-      html = { 'prettierd', 'prettier' },
-      css = { 'prettierd', 'prettier' },
-      json = { 'prettierd', 'prettier' },
-      yaml = { 'prettierd', 'prettier' },
-      markdown = { 'prettierd', 'prettier' },
+      javascript = { 'prettier' },
+      javascriptreact = { 'prettier' },
+      typescript = { 'prettier' },
+      typescriptreact = { 'prettier' },
+      html = { 'prettier' },
+      css = { 'prettier' },
+      json = { 'prettier' },
+      yaml = { 'prettier' },
+      markdown = { 'prettier' },
       bash = { 'shfmt' },
       toml = { 'taplo' },
+      c = { 'clang-format' },
+      cpp = { 'clang-format' },
     },
   },
 }

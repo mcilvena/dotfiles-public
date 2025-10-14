@@ -1,29 +1,39 @@
 -- Language Server Protocol configuration with Mason for server management
 -- Provides intelligent code completion, diagnostics, and language-specific features
+-- Uses native Neovim 0.11+ vim.lsp.config API (no nvim-lspconfig plugin needed)
 return {
   {
-    'neovim/nvim-lspconfig',
+    'williamboman/mason.nvim',
     dependencies = {
-      'williamboman/mason.nvim',
       'nvim-telescope/telescope.nvim',
       'saghen/blink.cmp',
     },
     config = function()
       require('mason').setup()
 
-      local lsp = require 'lspconfig'
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
-      lsp.bashls.setup { capabilities = capabilities }
-      lsp.jsonls.setup { capabilities = capabilities }
-      lsp.yamlls.setup {
+      vim.lsp.config.bashls = {
         capabilities = capabilities,
+        filetypes = { 'sh', 'bash' },
+      }
+      vim.lsp.config.hyprls = {
+        capabilities = capabilities,
+        filetypes = { 'hyprlang' },
+      }
+      vim.lsp.config.jsonls = {
+        capabilities = capabilities,
+        filetypes = { 'json', 'jsonc' },
+      }
+      vim.lsp.config.yamlls = {
+        capabilities = capabilities,
+        filetypes = { 'yaml', 'yaml.docker-compose' },
         settings = {
           yaml = {
             completion = true,
             schemas = {
-              [vim.fn.stdpath('config') .. '/schemas/cloudformation-template-schema.json'] = {
+              [vim.fn.stdpath 'config' .. '/schemas/cloudformation-template-schema.json'] = {
                 '*.cf.yaml',
                 'template.yaml',
               },
@@ -51,29 +61,58 @@ return {
           },
         },
       }
-      lsp.ts_ls.setup { capabilities = capabilities }
-      lsp.taplo.setup { capabilities = capabilities }
-      lsp.lua_ls.setup {
+      vim.lsp.config.ts_ls = {
         capabilities = capabilities,
+        filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+      }
+      vim.lsp.config.tailwindcss = {
+        capabilities = capabilities,
+        filetypes = { 'html', 'css', 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'vue', 'svelte' },
+      }
+      vim.lsp.config.eslint = {
+        capabilities = capabilities,
+        filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+      }
+      vim.lsp.config.taplo = {
+        capabilities = capabilities,
+        filetypes = { 'toml' },
+      }
+      vim.lsp.config.lua_ls = {
+        capabilities = capabilities,
+        filetypes = { 'lua' },
         settings = {
           Lua = {
             diagnostics = { globals = { 'vim' } },
           },
         },
       }
-      lsp.rust_analyzer.setup {
+      vim.lsp.config.rust_analyzer = {
         capabilities = capabilities,
-        cmd = { vim.fn.expand('~/.cargo/bin/rust-analyzer') }, -- Use system rust-analyzer to prevent duplication
+        cmd = { 'rust-analyzer' },
+        filetypes = { 'rust' },
         settings = {
           ['rust-analyzer'] = {
             cargo = {
               buildScripts = {
-                enable = false, -- Prevent running build scripts unnecessarily
+                enable = false,
               },
             },
           },
         },
       }
+      vim.lsp.config.marksman = {
+        capabilities = capabilities,
+        filetypes = { 'markdown', 'markdown.mdx' },
+      }
+      vim.lsp.config.clangd = {
+        capabilities = capabilities,
+        cmd = { 'clangd', '--background-index', '--clang-tidy', '--header-insertion=iwyu' },
+        filetypes = { 'c', 'cpp', 'objc', 'objcpp' },
+        single_file_support = true,
+      }
+
+      -- Enable configured servers (they will auto-start based on filetypes)
+      vim.lsp.enable { 'bashls', 'hyprls', 'jsonls', 'yamlls', 'ts_ls', 'tailwindcss', 'eslint', 'taplo', 'lua_ls', 'rust_analyzer', 'marksman', 'clangd' }
 
       -- Disable LSP formatting since conform.nvim handles it
       vim.api.nvim_create_autocmd('LspAttach', {

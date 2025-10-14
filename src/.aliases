@@ -4,9 +4,8 @@
 
 # Modern replacements for standard tools
 alias cat="bat"                   # Use bat for syntax highlighting
-alias cd="z"                      # Use zoxide for smart directory jumping
-alias ls="eza --git --no-filesize --icons --no-time --no-user --all --ignore-glob .DS_Store"
-alias ll="eza --git --long --no-filesize --icons --no-user --no-permissions --all --ignore-glob .DS_Store"
+alias ls="eza --git --no-filesize --icons --no-time --all --ignore-glob .DS_Store"
+alias ll="eza --git --long --no-filesize --icons --no-permissions --all --ignore-glob .DS_Store"
 alias tree="eza --tree --all --git-ignore"
 # alias grep="rg"                   # Use ripgrep for better search - commented out due to flag conflicts
 alias find="fd"                   # Use fd for better file finding
@@ -24,6 +23,10 @@ alias -- -="cd -"                 # Go to previous directory
 #=============================================================================
 # Development Tools
 #=============================================================================
+
+# Claude
+alias c="claude"
+alias cr="claude -r"
 
 # Git shortcuts
 alias g="git"
@@ -49,6 +52,7 @@ alias dps="docker ps"
 alias di="docker images"
 alias dex="docker exec -it"
 alias dprune="docker system prune -af"
+alias dps='docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"'
 
 # Kubernetes
 alias k="kubectl"
@@ -69,7 +73,6 @@ alias tfd="terraform destroy"
 #=============================================================================
 
 # Terminal
-alias c="clear"
 alias ta="tmux attach"
 alias tn="tmux new -s"
 alias tl="tmux list-sessions"
@@ -112,3 +115,11 @@ alias rm="rm -i"                 # Confirm before removing
 alias cp="cp -i"                 # Confirm before overwriting
 alias mv="mv -i"                 # Confirm before overwriting
 alias ln="ln -i"                 # Confirm before overwriting
+
+# Waybar reload
+alias waybar-reload="pkill waybar && hyprctl dispatch exec waybar"
+
+# Expressif Development
+alias get_idf='. $HOME/esp/esp-idf/export.sh'
+
+alias fd="fdfind"

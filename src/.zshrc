@@ -22,7 +22,7 @@ case $OS in
         if [ -f "/etc/os-release" ]; then
             . "/etc/os-release"
         fi
-        
+
         # 1Password SSH agent (Arch Linux)
         if [[ -f "/etc/arch-release" ]] && [[ -S "$HOME/.1password/agent.sock" ]]; then
             export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
@@ -61,9 +61,14 @@ add_to_path() {
 }
 
 # Add common paths
+add_to_path "/opt/homebrew/opt/ccache/libexec"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.cargo/bin"
 add_to_path "/opt/nvim/bin"
+add_to_path "$HOME/.local/share/bob/nvim-bin"
+add_to_path "$HOME/go/bin"
+add_to_path "/opt/homebrew/bin"
+add_to_path "$JAVA_HOME/bin"
 
 # OS-specific paths
 case $OS in
@@ -79,13 +84,13 @@ case $OS in
             # WSL-specific paths
             add_to_path "/mnt/c/Windows/System32"
         fi
-        
+
         # Distribution-specific
         if [[ -f "/etc/arch-release" ]]; then
             # Arch Linux specific
             add_to_path "/usr/bin"
         elif [[ -f "/etc/debian_version" ]]; then
-            # Ubuntu/Debian specific  
+            # Ubuntu/Debian specific
             add_to_path "/usr/local/bin"
             add_to_path "/snap/bin"
         fi
@@ -189,6 +194,11 @@ if [[ -d "$HOME/.docker/completions" ]]; then
     fpath=($HOME/.docker/completions $fpath)
 fi
 
+# Add custom zsh completions
+if [[ -d "$HOME/.zsh/completion" ]]; then
+    fpath=($HOME/.zsh/completion $fpath)
+fi
+
 # Initialize completion system once
 autoload -Uz compinit
 compinit -i -d ~/.zcompdump
@@ -203,27 +213,27 @@ zinit cdreplay -q
 setup_completions() {
     local comp_dir="$HOME/.local/share/zsh/completions"
     mkdir -p "$comp_dir"
-    
+
     # Rust toolchain
     if command -v rustup >/dev/null 2>&1; then
         rustup completions zsh > "$comp_dir/_rustup"
         rustup completions zsh cargo > "$comp_dir/_cargo"
     fi
-    
+
     # Kubernetes & containers
     command -v kubectl >/dev/null 2>&1 && kubectl completion zsh > "$comp_dir/_kubectl"
     command -v eksctl >/dev/null 2>&1 && eksctl completion zsh > "$comp_dir/_eksctl"
     command -v docker >/dev/null 2>&1 && docker completion zsh > "$comp_dir/_docker"
-    
+
     # AWS tools
     if command -v aws >/dev/null 2>&1; then
         aws_completer_path=$(which aws_completer 2>/dev/null)
         [[ -n "$aws_completer_path" ]] && complete -C "$aws_completer_path" aws
     fi
-    
+
     # JavaScript package managers
     command -v pnpm >/dev/null 2>&1 && pnpm install-completion >/dev/null 2>&1
-    
+
     # Add completion directory to fpath
     fpath=("$comp_dir" $fpath)
 }
@@ -308,8 +318,9 @@ fi
 # Load local environment variables
 load_env() {
     if [[ -s ~/.env ]]; then
-        env_vars=$(grep -v '^#' ~/.env | grep -v '^$')
-        [[ -n "$env_vars" ]] && export $(echo "$env_vars" | xargs)
+        set -a  # automatically export all variables
+        source ~/.env
+        set +a  # turn off automatic export
     else
         echo "No .env file found at ~/.env"
     fi
@@ -327,3 +338,9 @@ if [ -f ~/.p10k.zsh ]; then
 fi
 
 # Docker CLI completions are now handled in the centralized completion section above
+
+alias claude="$HOME/.claude/local/claude"
+alias 1password="ELECTRON_OZONE_PLATFORM_HINT=x11 1password"
+
+# ESP-IDF Configuration
+alias get_idf='. $HOME/esp/esp-idf/export.sh'

@@ -8,6 +8,9 @@ return {
     -- import = "huez-manager.import"
     branch = 'stable',
     event = 'UIEnter',
+    dependencies = {
+      'nvim-telescope/telescope.nvim',
+    },
     config = function()
       require('huez').setup {}
     end,
@@ -37,6 +40,7 @@ return {
         --     EndOfBuffer = { bg = "#111111" },
         --   }
         -- end,
+        transparent_background = true,
       }
       vim.cmd.colorscheme 'catppuccin-mocha'
     end,

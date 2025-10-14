@@ -1,0 +1,201 @@
+/* Catppuccin Mocha Theme for Waybar */
+/* Palette:
+   rosewater: #f5e0dc;
+   flamingo: #f2cdcd;
+   pink: #f5c2e7;
+   mauve: #cba6f7;
+   red: #f38ba8;
+   maroon: #eba0ac;
+   peach: #fab387;
+   yellow: #f9e2af;
+   green: #a6e3a1;
+   teal: #94e2d5;
+   sky: #89dceb;
+   sapphire: #74c7ec;
+   blue: #89b4fa;
+   lavender: #b4befe;
+   text: #cdd6f4;
+   subtext1: #bac2de;
+   subtext0: #a6adc8;
+   overlay2: #9399b2;
+   overlay1: #7f849c;
+   overlay0: #6c7086;
+   surface2: #585b70;
+   surface1: #45475a;
+   surface0: #313244;
+   base: #1e1e2e;
+   mantle: #181825;
+   crust: #11111b;
+*/
+
+* {
+  border: none;
+  border-radius: 0px;
+  font-family: "JetBrainsMono Nerd Font Mono", "JetBrainsMono NFM";
+  font-size: 14px;
+  min-height: 0;
+}
+
+window#waybar {
+  background: rgba(30, 30, 46, 0.6);
+  color: #cdd6f4;
+  border-radius: 0px;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+/* Module Styles */
+
+#workspaces button {
+  padding: 0 6px;
+  background-color: transparent;
+  color: #cdd6f4;
+  border-radius: 12px;
+  margin: 4px 2px;
+  transition-duration: 0.2s;
+}
+
+#workspaces button:hover {
+  background: #313244;
+  color: #cba6f7;
+}
+
+#workspaces button.active {
+  background-color: #45475a;
+  color: #cba6f7;
+}
+
+#workspaces button.urgent {
+  background-color: #f38ba8;
+  color: #1e1e2e;
+}
+
+#mode {
+  background-color: #313244;
+  border-bottom: 3px solid #cdd6f4;
+}
+
+#clock,
+#battery,
+#cpu,
+#memory,
+#disk,
+#temperature,
+#backlight,
+#network,
+#pulseaudio,
+#custom-media,
+#tray,
+#mode,
+#idle_inhibitor,
+#mpd {
+  padding: 0 10px;
+  color: #cdd6f4;
+  border-radius: 12px;
+  margin: 4px 2px;
+  background-color: #313244;
+}
+
+#window,
+#workspaces {
+  margin: 0 4px;
+}
+
+#clock {
+  margin-right: 8px;
+}
+
+/* Module-specific styles */
+
+#clock {
+  color: #89b4fa;
+}
+
+#battery {
+  color: #a6e3a1;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: #a6e3a1;
+  background-color: #313244;
+}
+
+@keyframes blink {
+  to {
+    background-color: #cdd6f4;
+    color: #1e1e2e;
+  }
+}
+
+#battery.critical:not(.charging) {
+  background-color: #f38ba8;
+  color: #cdd6f4;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#cpu {
+  color: #cba6f7;
+}
+
+#memory {
+  color: #fab387;
+}
+
+#backlight {
+  color: #f9e2af;
+}
+
+#network {
+  color: #74c7ec;
+}
+
+#network.disconnected {
+  color: #f38ba8;
+}
+
+#pulseaudio {
+  color: #b4befe;
+}
+
+#pulseaudio.muted {
+  color: #6c7086;
+}
+
+#temperature {
+  color: #94e2d5;
+}
+
+#temperature.critical {
+  color: #f38ba8;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: #f38ba8;
+}
+
+#custom-media {
+  color: #a6e3a1;
+  min-width: 100px;
+}
+
+#custom-media.custom-spotify {
+  color: #a6e3a1;
+}
+
+#custom-media.custom-vlc {
+  color: #f9e2af;
+}

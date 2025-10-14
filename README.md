@@ -19,17 +19,19 @@ This dotfiles setup includes integrated AI assistance for enhanced development w
   - Generates both summary line and detailed commit body
   - Streamlines git workflow with intelligent commit message suggestions
 
-- **⚙️ Configurable AI Environment**: 
+- **⚙️ Configurable AI Environment**:
   - `CODECOMPANION_ADAPTER`: Choose your preferred AI provider
   - `CODECOMPANION_*_MODEL`: Specify models for each provider
   - Easy switching between different AI services based on your needs
 
+**📖 See [CLAUDE.md](CLAUDE.md) for detailed Claude Code integration setup**
+
 ## Features
 
-- **Cross-Platform Support**: Works on macOS (work), Windows (personal), and Linux (personal)
+- **Cross-Platform Support**: Works on macOS, Windows (WSL2), and Linux
 - **Modern CLI Tools**: Replaces traditional tools with faster, feature-rich alternatives
 - **Consistent Theming**: Catppuccin Mocha theme across all applications
-- **Modern Editor**: Neovim configuration with Lazy.nvim setup
+- **Modern Editor**: Neovim configuration with Lazy.nvim and AI integration
 - **Git Workflow**: Enhanced git experience with delta diffs and lazygit UI
 - **Shell Enhancement**: Zsh with modern completions and smart directory navigation
 
@@ -37,29 +39,11 @@ This dotfiles setup includes integrated AI assistance for enhanced development w
 
 ### Prerequisites
 
-#### System Requirements
-- **Operating System**: macOS 10.15+, Ubuntu 20.04+, Arch Linux, or Windows 10+ with WSL2
-- **Shell**: Zsh (will be configured automatically)
-- **Terminal**: Any modern terminal emulator (recommendations included)
-
-#### Required Tools
-Before installation, ensure you have:
-- **Git** (for cloning and version control)
-- **Stow** (for dotfiles management) - installed via setup scripts if missing
-- **Curl** or **wget** (for downloading tools)
-
-#### Platform-Specific Dependencies
-**macOS:**
-- Xcode Command Line Tools: `xcode-select --install`
-- Homebrew (installed automatically by setup script)
-
-**Linux:**
-- Build essentials (`gcc`, `make`, `build-essential` on Ubuntu)
-- Package manager (`apt`, `pacman`, `yum`, etc.)
-
-**Windows:**
-- WSL2 with Ubuntu or Debian distribution
-- Windows Terminal (recommended)
+- **OS**: macOS 10.15+, Ubuntu 20.04+, Arch Linux, or Windows 10+ with WSL2
+- **Git**: For cloning the repository
+- **Stow**: Installed automatically if missing
+- **macOS**: Xcode Command Line Tools (`xcode-select --install`)
+- **Linux**: Build essentials (`build-essential` on Ubuntu, `base-devel` on Arch)
 
 ### Installation
 
@@ -99,23 +83,27 @@ dotfiles/
 │   ├── .config/           # XDG-compliant application configs
 │   │   ├── alacritty/     # Terminal emulator config
 │   │   ├── ghostty/       # Alternative terminal config
-│   │   ├── nvim/          # Modern Neovim with Lazy.nvim
-│   │   │   └── README.md  # 📖 Comprehensive Neovim guide
+│   │   ├── nvim/          # Modern Neovim with Lazy.nvim and AI
+│   │   ├── hypr/          # Hyprland window manager (Linux)
 │   │   ├── lazygit/       # Git terminal UI config
 │   │   ├── bat/           # Syntax highlighter config
 │   │   └── delta/         # Git diff enhancement config
+│   ├── .claude/           # Claude Code integration
+│   │   ├── local/         # AI commit scripts for lazygit
+│   │   └── commands/      # Custom slash commands
 │   ├── .zshrc             # Zsh shell configuration
 │   ├── .gitconfig         # Git configuration with includes
 │   ├── .aliases           # Shell aliases and shortcuts
 │   ├── .env-example       # Environment variable template
 │   └── .wezterm.lua       # WezTerm terminal config
 ├── install/               # Installation scripts
-│   ├── ubuntu.sh         # Ubuntu/Debian specific tools
-│   ├── arch-linux.sh     # Arch Linux specific tools
-│   └── macos.sh          # macOS installation script
-├── docs/                 # Documentation
-├── KEYMAPS.md            # 📖 Complete keybinding reference
-└── README.md             # This file
+│   ├── ubuntu.sh          # Ubuntu/Debian specific tools
+│   ├── arch-linux.sh      # Arch Linux specific tools
+│   └── macos.sh           # macOS installation script
+├── scripts/               # Utility scripts
+├── CLAUDE.md              # Claude Code setup guide
+├── KEYMAPS.md             # Complete keybinding reference
+└── README.md              # This file
 ```
 
 ## Key Tools and Replacements
@@ -152,9 +140,7 @@ All terminals use:
 ### Text Editors
 
 #### Neovim
-Configuration available:
-- **Lazy.nvim** (`~/.config/nvim` → `nvim/`) - Modern plugin management
-- **📖 [Detailed Neovim Documentation](src/.config/nvim/README.md)** - Comprehensive configuration guide
+Modern Neovim configuration with Lazy.nvim plugin management.
 
 Features:
 - **AI-Powered Development**: CodeCompanion integration with multiple AI providers

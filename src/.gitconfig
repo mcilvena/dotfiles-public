@@ -78,3 +78,5 @@
 	path = ~/.config/delta/themes/catppuccin.gitconfig
 	# Include local configuration
 	path = ~/.gitconfig-local
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers

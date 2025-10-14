@@ -1,6 +1,5 @@
-import = [
-  "~/.config/alacritty/catppuccin-mocha.toml"
-]
+[general]
+import = ["~/.config/alacritty/catppuccin-mocha.toml"]
 
 [font]
 size = 14.0
@@ -17,6 +16,4 @@ decorations = "Buttonless"
 TERM = "xterm-256color"
 
 [keyboard]
-bindings = [
-  {key = "F", mods = "Control", action = "ToggleSimpleFullscreen" },
-]
+bindings = [{ key = "F", mods = "Control", action = "ToggleSimpleFullscreen" }]

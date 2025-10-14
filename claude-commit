@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# Claude Code Intelligent Git Commit Script
+# Analyzes staged and unstaged changes, groups them logically, and creates meaningful commits
+
+set -e
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Check if we're in a git repository
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo -e "${RED}Error: Not in a git repository${NC}"
+    exit 1
+fi
+
+# Check if Claude Code is available
+if ! command -v ~/.claude/local/claude &> /dev/null; then
+    echo -e "${RED}Error: Claude Code not found at ~/.claude/local/claude${NC}"
+    exit 1
+fi
+
+echo -e "${BLUE}🤖 Claude Code Intelligent Commit Assistant${NC}"
+echo "Analyzing repository changes..."
+
+# Get current status
+git_status=$(git status --porcelain)
+staged_files=$(git diff --cached --name-only)
+unstaged_files=$(git diff --name-only)
+
+if [[ -z "$git_status" ]]; then
+    echo -e "${YELLOW}No changes to commit.${NC}"
+    exit 0
+fi
+
+echo -e "\n${BLUE}Current repository status:${NC}"
+git status --short
+
+# Ask Claude to analyze and group the changes
+echo -e "\n${BLUE}Analyzing changes with Claude Code...${NC}"
+
+analysis_prompt="You are helping to create logical git commits. Analyze the following git repository state and suggest how to group the changes into logical commits.
+
+Repository status:
+$(git status --porcelain)
+
+Staged changes:
+$(git diff --cached --stat)
+
+Unstaged changes:
+$(git diff --stat)
+
+Please suggest logical groupings of files that should be committed together. For each group, provide:
+1. A list of files that should be included
+2. A brief reason why these files belong together
+3. The order in which commits should be made
+
+Format your response as:
+GROUP 1: [brief description]
+Files: file1, file2, file3
+Reason: [explanation]
+
+GROUP 2: [brief description]  
+Files: file4, file5
+Reason: [explanation]
+
+Only group files that currently have changes (staged or unstaged). Be practical and create meaningful, atomic commits."
+
+# Get analysis from Claude
+analysis=$(~/.claude/local/claude "$analysis_prompt")
+
+echo -e "\n${GREEN}Claude's Analysis:${NC}"
+echo "$analysis"
+
+echo -e "\n${YELLOW}Would you like to proceed with automatic commits based on this analysis? (y/n)${NC}"
+read -r proceed
+
+if [[ ! "$proceed" =~ ^[Yy]$ ]]; then
+    echo "Aborted by user."
+    exit 0
+fi
+
+# Extract groups from analysis and create commits
+echo -e "\n${BLUE}Creating commits...${NC}"
+
+# Parse the analysis to extract file groups
+# This is a simplified implementation - in practice, you might want more robust parsing
+group_num=1
+while IFS= read -r line; do
+    if [[ "$line" =~ ^GROUP\ [0-9]+: ]]; then
+        current_group_desc=$(echo "$line" | sed 's/^GROUP [0-9]*: //')
+        echo -e "\n${BLUE}Processing: $current_group_desc${NC}"
+    elif [[ "$line" =~ ^Files:\ .* ]]; then
+        files_line=$(echo "$line" | sed 's/^Files: //')
+        IFS=', ' read -ra files_array <<< "$files_line"
+        
+        # Stage the files for this group
+        for file in "${files_array[@]}"; do
+            file=$(echo "$file" | xargs) # trim whitespace
+            if [[ -n "$file" && -f "$file" ]]; then
+                echo "  Staging: $file"
+                git add "$file"
+            elif [[ -n "$file" ]]; then
+                echo -e "  ${YELLOW}Warning: File not found: $file${NC}"
+            fi
+        done
+        
+        # Check if there are staged changes
+        if git diff --cached --quiet; then
+            echo -e "  ${YELLOW}No staged changes for this group, skipping...${NC}"
+            continue
+        fi
+        
+        # Generate commit message using Claude
+        echo "  Generating commit message..."
+        commit_msg=$(~/.claude/local/claude "Generate a git commit message on the first line and detailed body based on the staged changes. Describe the changes made in a way that helps someone reviewing change to understand what changed and why. Output only the commit message and NEVER any additional text. The output should start with the first line of the commit message. Do not include any credits in the output")
+        
+        # Create the commit
+        echo "  Creating commit..."
+        echo "$commit_msg" | git commit -F -
+        echo -e "  ${GREEN}✓ Commit created${NC}"
+        
+        ((group_num++))
+    fi
+done <<< "$analysis"
+
+# Handle any remaining unstaged changes
+unstaged_remaining=$(git diff --name-only)
+if [[ -n "$unstaged_remaining" ]]; then
+    echo -e "\n${YELLOW}Remaining unstaged changes:${NC}"
+    git status --short
+    echo -e "\n${YELLOW}Would you like to stage and commit the remaining changes? (y/n)${NC}"
+    read -r commit_remaining
+    
+    if [[ "$commit_remaining" =~ ^[Yy]$ ]]; then
+        git add -A
+        echo "Generating commit message for remaining changes..."
+        remaining_commit_msg=$(~/.claude/local/claude "Generate a git commit message on the first line and detailed body based on the staged changes. Describe the changes made in a way that helps someone reviewing change to understand what changed and why. Output only the commit message and NEVER any additional text. The output should start with the first line of the commit message. Do not include any credits in the output")
+        echo "$remaining_commit_msg" | git commit -F -
+        echo -e "${GREEN}✓ Remaining changes committed${NC}"
+    fi
+fi
+
+echo -e "\n${GREEN}🎉 All done! Summary of commits:${NC}"
+git log --oneline -10

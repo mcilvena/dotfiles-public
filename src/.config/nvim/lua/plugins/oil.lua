@@ -33,7 +33,7 @@ return {
       { 'echasnovski/mini.icons', opts = {} },
     },
     keys = {
-      { '-', '<cmd>Oil --float --preview<CR>', { desc = 'Open parent directory with preview' } },
+      { '-', '<cmd>Oil<CR>', { desc = 'Open parent directory with preview' } },
     },
   },
 }

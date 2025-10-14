@@ -41,33 +41,35 @@ return {
       require('codecompanion').setup {
         -- Adapter configurations with environment variable support
         adapters = {
-          anthropic = function()
-            return require('codecompanion.adapters').extend('anthropic', {
-              schema = {
-                model = {
-                  default = get_model_from_env("anthropic", default_models.anthropic),
+          http = {
+            anthropic = function()
+              return require('codecompanion.adapters').extend('anthropic', {
+                schema = {
+                  model = {
+                    default = get_model_from_env("anthropic", default_models.anthropic),
+                  },
                 },
-              },
-            })
-          end,
-          gemini = function()
-            return require('codecompanion.adapters').extend('gemini', {
-              schema = {
-                model = {
-                  default = get_model_from_env("gemini", default_models.gemini),
+              })
+            end,
+            gemini = function()
+              return require('codecompanion.adapters').extend('gemini', {
+                schema = {
+                  model = {
+                    default = get_model_from_env("gemini", default_models.gemini),
+                  },
                 },
-              },
-            })
-          end,
-          ollama = function()
-            return require('codecompanion.adapters').extend('ollama', {
-              schema = {
-                model = {
-                  default = get_model_from_env("ollama", default_models.ollama),
+              })
+            end,
+            ollama = function()
+              return require('codecompanion.adapters').extend('ollama', {
+                schema = {
+                  model = {
+                    default = get_model_from_env("ollama", default_models.ollama),
+                  },
                 },
-              },
-            })
-          end,
+              })
+            end,
+          },
         },
         -- Adapter strategies for different interaction modes
         strategies = {

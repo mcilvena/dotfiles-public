@@ -1,6 +1,29 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 
+wezterm.on("user-var-changed", function(window, pane, name, value)
+  local overrides = window:get_config_overrides() or {}
+  if name == "ZEN_MODE" then
+    local incremental = value:find("+")
+    local number_value = tonumber(value)
+    if incremental ~= nil then
+      while number_value > 0 do
+        window:perform_action(wezterm.action.IncreaseFontSize, pane)
+        number_value = number_value - 1
+      end
+      overrides.enable_tab_bar = false
+    elseif number_value < 0 then
+      window:perform_action(wezterm.action.ResetFontSize, pane)
+      overrides.font_size = nil
+      overrides.enable_tab_bar = true
+    else
+      overrides.font_size = number_value
+      overrides.enable_tab_bar = false
+    end
+  end
+  window:set_config_overrides(overrides)
+end)
+
 -- This will hold the configuration.
 local config = wezterm.config_builder()
 
@@ -21,23 +44,25 @@ if is_windows then
 end
 
 config.enable_wayland = false
-config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 400 })
-config.line_height = 1.1
+--config.font = wezterm.font("JetBrainsMono Nerd Font", { weight = 400 })
+config.font = wezterm.font("Cascadia Code", { weight = 400 })
+config.line_height = 1.05
 
 -- Platform-specific DPI and font size configuration for consistent appearance
+-- Base font size in points for consistent visual size across platforms
+local base_font_size = 16
+
 if is_darwin then
-  -- macOS - Common Apple displays
-  config.font_size = 13
-  config.dpi = 163 -- MacBook Air/Pro Retina displays
+  config.font_size = base_font_size + 2
 elseif is_windows then
-  -- Windows/WSL - Common high-DPI displays
-  config.font_size = 12
-  config.dpi = 144 -- Common Windows high-DPI (150% scaling)
+  config.font_size = base_font_size
 elseif is_linux then
-  -- Linux - Varies widely, adjust based on your specific setup
-  config.font_size = 12
-  config.dpi = 96 -- Standard Linux DPI, adjust for your monitor
+  config.font_size = base_font_size + 2
 end
+
+-- Additional font rendering settings for consistency
+config.freetype_load_target = "Normal" -- or "Light" for thinner rendering
+config.freetype_render_target = "Normal" -- or "Light" for less bold appearance
 
 config.keys = {
   {
@@ -71,12 +96,13 @@ local wezzy_bar =
   wezterm.plugin.require("https://github.com/mcilvena/wezzy-bar")
 wezzy_bar.apply_to_config(config, {
   position = "bottom",
-  zones = {
-    left = { "tabs" },
-    right = { "clock" },
-  },
   theme = {
-    tab_bar_background = "#0C0C0C", -- Custom black
+    tab_bar_background = "#11111b", -- Custom black
+  },
+  components = {
+    clock = {
+      format = "%a %d %b %I:%M",
+    },
   },
 })
 
@@ -87,5 +113,9 @@ if ok and local_config then
     config[k] = v
   end
 end
+
+config.window_decorations = "RESIZE"
+config.window_background_opacity = 0.92
+config.macos_window_background_blur = 15
 
 return config

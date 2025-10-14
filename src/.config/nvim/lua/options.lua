@@ -1,30 +1,12 @@
 -- Set leader
 vim.g.mapleader = ' '
 
-vim.o.number = true
-vim.o.relativenumber = true
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.smartcase = true
 
 -- In init.lua
 vim.opt.clipboard = 'unnamedplus'
--- vim.g.clipboard = {
---   name = 'WslClipboard',
---   copy = {
---     ['+'] = 'clip.exe',
---     ['*'] = 'clip.exe',
---   },
---   paste = {
---     ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
---     ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
---   },
---   cache_enabled = 0,
--- }
-
--- Folding (handled by nvim-ufo plugin)
--- vim.opt.foldenable = true
--- vim.opt.foldlevelstart = 1
--- vim.opt.foldmethod = 'expr'
--- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
--- vim.opt.foldminlines = 2
 
 -- Highlight yanked text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -33,7 +15,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank {
       higroup = 'IncSearch', -- Highlight group to use
-      timeout = 200,         -- Duration of the highlight in milliseconds
+      timeout = 200, -- Duration of the highlight in milliseconds
     }
   end,
 })
@@ -49,3 +31,6 @@ vim.opt.undolevels = 50
 
 -- Character limits
 vim.opt.colorcolumn = '100'
+
+-- Disable splash screen
+vim.opt.shortmess:append 'I'

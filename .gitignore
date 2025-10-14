@@ -4,4 +4,26 @@ src/.tmux/plugins/*
 src/.gitconfig-private
 src/.gitconfig-local
 .aider*
-.claude/
+
+# Claude Code - Runtime data (global ~/.claude)
+.claude/.credentials.json
+.claude/history.jsonl
+.claude/debug/
+.claude/file-history/
+.claude/shell-snapshots/
+.claude/statsig/
+.claude/todos/
+.claude/projects/
+.claude/plugins/repos/
+.claude/plugins/config.json
+
+# Claude Code - Local overrides (per-project)
+src/.claude/settings.local.json
+src/.claude/local/node_modules/
+.claude/settings.local.json
+
+src/.config/configstore/update-notifier-@google/gemini-cli.json
+src/.config/nextjs-nodejs/config.json
+src/.config/hypr/logs/monitor-reset.log
+Session.vim
+**/Session.vim
