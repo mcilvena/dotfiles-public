@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+
+# Single commit script - generates and creates one commit from staged changes
+# Used by both lazygit single-commit (C) and batch-commit (B) workflows
+
+set -e
+
+# Constants
+MAX_DIFF_SIZE=$((50 * 1024))  # 50KB limit to avoid token issues
+
+# Claude CLI path - configurable via environment variable
+CLAUDE="${CLAUDE_CLI_PATH:-${HOME}/.claude/local/claude}"
+
+# Validate Claude CLI exists
+if [ ! -f "$CLAUDE" ]; then
+    echo "ERROR: Claude CLI not found at: $CLAUDE" >&2
+    echo "Set CLAUDE_CLI_PATH environment variable or install Claude CLI" >&2
+    exit 1
+fi
+
+if [ ! -x "$CLAUDE" ]; then
+    echo "ERROR: Claude CLI is not executable: $CLAUDE" >&2
+    exit 1
+fi
+
+# Check if git repo
+if ! git rev-parse --git-dir > /dev/null 2>&1; then
+    echo "ERROR: Not a git repository" >&2
+    exit 1
+fi
+
+# Check if there are staged changes
+if git diff --cached --quiet; then
+    echo "ERROR: No staged changes to commit" >&2
+    exit 1
+fi
+
+# Get the staged diff
+STAGED_DIFF=$(git diff --cached)
+
+# Check diff size to avoid token limit issues
+DIFF_SIZE=${#STAGED_DIFF}
+if [ "$DIFF_SIZE" -gt "$MAX_DIFF_SIZE" ]; then
+    echo "WARNING: Diff is large (${DIFF_SIZE} bytes), truncating to ${MAX_DIFF_SIZE} bytes" >&2
+    STAGED_DIFF="${STAGED_DIFF:0:$MAX_DIFF_SIZE}"
+    STAGED_DIFF="${STAGED_DIFF}
+
+[... diff truncated due to size ...]"
+fi
+
+# Generate commit message with Claude using here-document for safety
+COMMIT_MSG=$("$CLAUDE" <<EOF
+Generate a git commit message for these staged changes. Use conventional commit format (type: description) where type is one of: feat, fix, refactor, test, docs, chore.
+
+Describe the changes made in a way that helps someone reviewing the change understand what changed and why. You may include a detailed body after a blank line if needed.
+
+Output ONLY the commit message. Do not include any preamble, thinking, explanation, or additional text. The very first character of your output must be the first letter of the commit type.
+
+Do not include any credits or attribution in the output.
+
+Staged changes:
+$STAGED_DIFF
+EOF
+)
+
+# Extract commit message (handle both single-line and multi-line messages)
+# First, try to get the full message starting from the first conventional commit line
+COMMIT_MSG=$(echo "$COMMIT_MSG" | awk '
+    BEGIN { found=0 }
+    /^(feat|fix|refactor|test|docs|chore|style|perf|ci|build):/ {
+        found=1
+    }
+    found { print }
+' | sed '/^$/d' | head -n 20)  # Limit to 20 lines max
+
+# Fallback: if awk didn't find anything, try original grep approach
+if [ -z "$COMMIT_MSG" ]; then
+    COMMIT_MSG=$(echo "$COMMIT_MSG" | grep -m 1 -E '^[a-z]+:' || echo "")
+fi
+
+# Verify we got a commit message
+if [ -z "$COMMIT_MSG" ]; then
+    echo "ERROR: Failed to generate commit message from Claude output" >&2
+    exit 1
+fi
+
+# Create the commit
+echo "$COMMIT_MSG" | git commit -F -
